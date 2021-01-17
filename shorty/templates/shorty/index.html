@@ -1,0 +1,64 @@
+{% load static %}
+
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name='viewport' content="width-device-width,initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie-edge">
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css2?family=Fondamento&display=swap" rel="stylesheet"> 
+        <link rel="stylesheet" href="{% static 'shorty/style.css' %}">
+        <title>Shorty</title>
+    </head>
+
+    <body>
+        <div class="header">
+            <h2>Shorty</h2>    
+        </div> 
+        <div class="body"> 
+            <h3>Shorty is a url shortnener service </h3>
+            <form method="post" action="{% url 'index' %}" id="urlFrom">
+                {% csrf_token %}
+                <div class="inputs">
+                    <input type="text" name="longUrl" id="longUrl" placeholder="Enter The Url">
+                </div>
+                <div class="inputs">
+                    <input onclick="submitForm(event)" type="submit" class="button" value="Get Url" style="width:100px;background-color:#00A877;border:none;" >
+                </div>
+                    
+            </form>
+            {% if token %}
+            <div class="inputs">
+                <h4>Here's your shortnen url.</h4>
+                <input type="text" name="longUrl" value="{{token}}" id="short_url">
+                <div style="padding:15px">
+                    <input type="submit" onclick="myFunction()" class="btn" style="width:100px;background-color:#00A877;border:none;" value="Copy">
+                </div>
+            {% endif %}
+            <script>
+                function submitForm(event){
+                    event.preventDefault();
+                    const x = document.querySelector("#longUrl").value;
+                    let form = document.querySelector("#urlFrom")
+                    console.log()
+                    if (x.trim() === ""){
+                        return false
+                    } else {
+                        form.submit();
+                        return true
+                    }
+                }
+                function myFunction() {
+                    let copyText = document.getElementById("short_url");
+                    copyText.select();
+                    copyText.setSelectionRange(0, 99999);
+                    document.execCommand("copy");
+                    alert("Copied the text: " + copyText.value);
+                }  
+            </script>
+        </div>
+        <div class="footer">
+            <h2>Made by Satyam Shree</h2>
+        </div>
+    </body>
+</html>    
